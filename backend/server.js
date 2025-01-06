@@ -7,7 +7,10 @@ dotenv.config();
 
 const app = express();
 
-app.post("/products", async (req, res) => {
+app.use(express.json());
+// allows us to accept JSON data in the req.body
+
+app.post("/api/products", async (req, res) => {
   // making the function async allows us to us the keyword 'await' later
 
   const product = req.body;
@@ -44,6 +47,20 @@ app.post("/products", async (req, res) => {
 
 // To test if the POST request works without a frontend application,
 // use Postman
+
+app.delete("/api/products/:id", async (req, res) => {
+  // when a product is created, it comes with an object ID
+  const { id } = req.params;
+
+  try {
+    // passes in the id of the product and tries to find it in the database
+    // if it finds it, then it deletes it
+    await Product.findByIdAndDelete(id);
+    res.status(200).json({ success: true, message: "Product Deleted" });
+  } catch (error) {
+    res.status(404).json({ success: false, message: "Product Not Found" });
+  }
+});
 
 app.listen(5000, () => {
   connectDB();
