@@ -56,6 +56,29 @@ app.post("/api/products", async (req, res) => {
   // the catch block executes and logs the error message
 });
 
+app.put("/api/products/:id", async (req, res) => {
+  // for updating product information
+  const { id } = req.params;
+
+  const product = req.body; // name, price, image
+
+  // if an invalid object ID is passed,
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Invalid Product Id" });
+  }
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(id, product, {
+      new: true,
+    });
+    res.status(200).json({ success: true, data: updatedProduct });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+});
+
 // To test if the POST request works without a frontend application,
 // use Postman
 
