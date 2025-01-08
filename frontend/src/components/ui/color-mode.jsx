@@ -45,16 +45,17 @@ export const ColorModeButton = React.forwardRef(function ColorModeButton(
         onClick={toggleColorMode}
         variant="ghost"
         aria-label="Toggle color mode"
-        width="3rem"
-        height="2.75rem"
-        backgroundColor={useColorModeValue("white", "gray.800")}
-        shadow={"sm"}
+        // Adjust box size
+        width="2.5rem"
+        height="2.5rem"
+        backgroundColor={useColorModeValue("gray.100", "gray.900")}
         ref={ref}
         {...props}
         css={{
           _icon: {
-            width: "1.75rem",
-            height: "1.75rem",
+            // Adjust icon size
+            width: "1.6rem",
+            height: "1.6rem",
           },
         }}
       >

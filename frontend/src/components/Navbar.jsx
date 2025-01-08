@@ -15,13 +15,13 @@ const linkStyle = {
 };
 
 const buttonStyle = {
-  height: "2.75rem",
-  width: "3rem",
+  height: "2.5rem",
+  width: "2.5rem",
 };
 
 const iconStyle = {
-  height: "1.75rem",
-  width: "1.75rem",
+  height: "1.6rem",
+  width: "1.6rem",
 };
 
 const Navbar = () => {
@@ -45,8 +45,7 @@ const Navbar = () => {
             <Button
               style={buttonStyle}
               color={useColorModeValue("gray.800", "gray.100")}
-              backgroundColor={useColorModeValue("white", "gray.800")}
-              shadow={"sm"}
+              backgroundColor={useColorModeValue("gray.100", "gray.900")}
             >
               <FaRegPlusSquare style={iconStyle} />
             </Button>
