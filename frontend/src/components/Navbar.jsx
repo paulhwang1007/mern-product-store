@@ -1,4 +1,5 @@
-import { Button, Container, Flex, HStack, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, HStack } from "@chakra-ui/react";
+import { useColorModeValue } from "@/components/ui/color-mode";
 import { Link } from "react-router-dom";
 import { ColorModeButton } from "./ui/color-mode";
 import { FaRegPlusSquare } from "react-icons/fa";
@@ -16,13 +17,11 @@ const linkStyle = {
 const buttonStyle = {
   height: "2.75rem",
   width: "3rem",
-  background: "#424242",
 };
 
 const iconStyle = {
   height: "1.75rem",
   width: "1.75rem",
-  color: "#F5F5F5",
 };
 
 const Navbar = () => {
@@ -43,7 +42,12 @@ const Navbar = () => {
 
         <HStack spacing={2} alignItems={"center"}>
           <Link to={"/create"}>
-            <Button style={buttonStyle}>
+            <Button
+              style={buttonStyle}
+              color={useColorModeValue("gray.800", "gray.100")}
+              backgroundColor={useColorModeValue("white", "gray.800")}
+              shadow={"sm"}
+            >
               <FaRegPlusSquare style={iconStyle} />
             </Button>
           </Link>
