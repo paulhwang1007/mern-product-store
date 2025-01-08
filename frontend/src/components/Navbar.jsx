@@ -13,9 +13,16 @@ const linkStyle = {
   backgroundClip: "text",
 };
 
-const size = {
-  height: "1.25rem",
-  width: "1.25rem",
+const buttonStyle = {
+  height: "2.75rem",
+  width: "3rem",
+  background: "#424242",
+};
+
+const iconStyle = {
+  height: "1.75rem",
+  width: "1.75rem",
+  color: "#F5F5F5",
 };
 
 const Navbar = () => {
@@ -36,7 +43,9 @@ const Navbar = () => {
 
         <HStack spacing={2} alignItems={"center"}>
           <Link to={"/create"}>
-            <FaRegPlusSquare style={size} />
+            <Button style={buttonStyle}>
+              <FaRegPlusSquare style={iconStyle} />
+            </Button>
           </Link>
           <ColorModeButton />
         </HStack>
