@@ -22,16 +22,17 @@ import {
 } from "@/components/ui/dialog";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import React from "react";
+import React, { useState } from "react";
 import { useColorModeValue } from "./ui/color-mode";
 import { useProductStore } from "@/store/product";
 import { toaster } from "@/components/ui/toaster";
 
 function ProductCard({ product }) {
+  const [updatedProduct, setUpdatedProduct] = useState(product);
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bg = useColorModeValue("white", "gray.800");
 
-  const { deleteProduct } = useProductStore();
+  const { updateProduct, deleteProduct } = useProductStore();
 
   const handleDeleteProduct = async (pid) => {
     const { success, message } = await deleteProduct(pid);
@@ -46,6 +47,25 @@ function ProductCard({ product }) {
       toaster.create({
         title: "Success",
         description: message,
+        type: "success",
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleUpdateProduct = async (pid, updatedProduct) => {
+    const { success, message } = await updateProduct(pid, updatedProduct);
+    if (!success) {
+      toaster.create({
+        title: "Error",
+        description: message,
+        type: "error",
+        isClosable: true,
+      });
+    } else {
+      toaster.create({
+        title: "Success",
+        description: "Product Updated Successfully",
         type: "success",
         isClosable: true,
       });
@@ -96,18 +116,55 @@ function ProductCard({ product }) {
               </DialogHeader>
               <DialogBody>
                 <VStack spacing={4}>
-                  <Input placeholder="Product Name" name="name" />
-                  <Input placeholder="Price" name="price" type="number" />
-                  <Input placeholder="Image URL" name="image" />
+                  <Input
+                    placeholder="Product Name"
+                    name="name"
+                    value={updatedProduct.name}
+                    onChange={(e) =>
+                      setUpdatedProduct({
+                        ...updatedProduct,
+                        name: e.target.value,
+                      })
+                    }
+                  />
+                  <Input
+                    placeholder="Price"
+                    name="price"
+                    type="number"
+                    value={updatedProduct.price}
+                    onChange={(e) =>
+                      setUpdatedProduct({
+                        ...updatedProduct,
+                        price: e.target.value,
+                      })
+                    }
+                  />
+                  <Input
+                    placeholder="Image URL"
+                    name="image"
+                    value={updatedProduct.image}
+                    onChange={(e) =>
+                      setUpdatedProduct({
+                        ...updatedProduct,
+                        image: e.target.value,
+                      })
+                    }
+                  />
                 </VStack>
               </DialogBody>
               <DialogFooter>
                 <DialogActionTrigger>
                   <Button variant="ghost">Cancel</Button>
+                  <Button
+                    backgroundColor="cyan.300"
+                    mr={3}
+                    onClick={() =>
+                      handleUpdateProduct(product._id, updatedProduct)
+                    }
+                  >
+                    Update
+                  </Button>
                 </DialogActionTrigger>
-                <Button backgroundColor="cyan.300" mr={3}>
-                  Update
-                </Button>
               </DialogFooter>
             </DialogContent>
           </DialogRoot>
