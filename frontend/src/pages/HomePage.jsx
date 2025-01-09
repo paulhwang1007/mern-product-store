@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Container, VStack, Text, SimpleGrid } from "@chakra-ui/react";
+import { Toaster, toaster } from "../components/ui/toaster";
 import { Link } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
 import { useProductStore } from "@/store/product";
@@ -51,6 +52,7 @@ function HomePage() {
           </Text>
         )}
       </VStack>
+      <Toaster />
     </Container>
   );
 }

@@ -10,10 +10,32 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import React from "react";
 import { useColorModeValue } from "./ui/color-mode";
+import { useProductStore } from "@/store/product";
+import { Toaster, toaster } from "@/components/ui/toaster";
 
 function ProductCard({ product }) {
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bg = useColorModeValue("white", "gray.800");
+
+  const { deleteProduct } = useProductStore();
+  const handleDeleteProduct = async (pid) => {
+    const { success, message } = await deleteProduct(pid);
+    if (!success) {
+      toaster.create({
+        title: "Error",
+        description: message,
+        type: "error",
+        isClosable: true,
+      });
+    } else {
+      toaster.create({
+        title: "Success",
+        description: message,
+        type: "success",
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <Box
@@ -45,7 +67,10 @@ function ProductCard({ product }) {
           <IconButton backgroundColor="cyan.300">
             <FaRegEdit />
           </IconButton>
-          <IconButton backgroundColor="red.300">
+          <IconButton
+            onClick={() => handleDeleteProduct(product._id)}
+            backgroundColor="red.300"
+          >
             <MdDelete />
           </IconButton>
         </HStack>
