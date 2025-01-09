@@ -5,19 +5,34 @@ import {
   Text,
   IconButton,
   HStack,
+  VStack,
+  Input,
+  Button,
 } from "@chakra-ui/react";
+import {
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  DialogActionTrigger,
+} from "@/components/ui/dialog";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import React from "react";
 import { useColorModeValue } from "./ui/color-mode";
 import { useProductStore } from "@/store/product";
-import { Toaster, toaster } from "@/components/ui/toaster";
+import { toaster } from "@/components/ui/toaster";
 
 function ProductCard({ product }) {
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bg = useColorModeValue("white", "gray.800");
 
   const { deleteProduct } = useProductStore();
+
   const handleDeleteProduct = async (pid) => {
     const { success, message } = await deleteProduct(pid);
     if (!success) {
@@ -64,9 +79,39 @@ function ProductCard({ product }) {
         </Text>
 
         <HStack spacing={2}>
-          <IconButton backgroundColor="cyan.300">
-            <FaRegEdit />
-          </IconButton>
+          <DialogRoot
+            size="lg"
+            placement="center"
+            motionPreset="slide-in-bottom"
+          >
+            <DialogTrigger>
+              <IconButton backgroundColor="cyan.300">
+                <FaRegEdit />
+              </IconButton>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogCloseTrigger />
+              <DialogHeader>
+                <DialogTitle>Update Product</DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <VStack spacing={4}>
+                  <Input placeholder="Product Name" name="name" />
+                  <Input placeholder="Price" name="price" type="number" />
+                  <Input placeholder="Image URL" name="image" />
+                </VStack>
+              </DialogBody>
+              <DialogFooter>
+                <DialogActionTrigger>
+                  <Button variant="ghost">Cancel</Button>
+                </DialogActionTrigger>
+                <Button backgroundColor="cyan.300" mr={3}>
+                  Update
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </DialogRoot>
+
           <IconButton
             onClick={() => handleDeleteProduct(product._id)}
             backgroundColor="red.300"
